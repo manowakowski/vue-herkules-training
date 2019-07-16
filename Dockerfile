@@ -1,4 +1,4 @@
-FROM node:10.8.0-stretch
+FROM node:12.5.0-stretch
 
 # install simple http server for serving static content
 RUN yarn global add http-server
@@ -12,11 +12,17 @@ COPY herkules/package*.json ./
 # CLI
 RUN yarn global add @vue/cli
 RUN yarn global add @vue/cli-service-global
-# install project dependencies
-RUN yarn install
+
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY ./herkules/src .
+
+COPY ./herkules/package.json .
+RUN cat package.json
+# install project dependencies
+RUN yarn install
+
+#RUN yarn global add eslint-loader@2.1.2
 
 # build app for production with minification
 #RUN vue build
